@@ -27,7 +27,13 @@ client.connect((err) => {
   const OrderCollection = client.db("service").collection("order");
   const AdminCollection = client.db("service").collection("admin");
   const ReviewCollection = client.db("service").collection("review");
-
+  var contactCollection = client.db("service").collection("ContactUs");
+  app.post("/contact", (req, res) => {
+    const newContact = req.body;
+    contactCollection.insertOne(newContact).then((result) => {
+      res.send(result.insertedCount > 0);
+    });
+  });
   app.post("/addService", (req, res) => {
     const newService = req.body;
     console.log("adding new product: ", newService);
@@ -55,7 +61,7 @@ client.connect((err) => {
   app.post("/isAdmin", (req, res) => {
     const email = req.body.email;
     AdminCollection.find({ email: email }).toArray((err, admin) => {
-      res.send(admin);
+      res.send(admin.length > 0);
     });
   });
   app.post("/addOrder", (req, res) => {
