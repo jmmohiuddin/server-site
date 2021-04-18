@@ -28,7 +28,7 @@ client.connect((err) => {
   const AdminCollection = client.db("service").collection("admin");
   const ReviewCollection = client.db("service").collection("review");
   var contactCollection = client.db("service").collection("ContactUs");
-  app.post("/contact", (req, res) => {
+  app.post("/feedback", (req, res) => {
     const newContact = req.body;
     contactCollection.insertOne(newContact).then((result) => {
       res.send(result.insertedCount > 0);
